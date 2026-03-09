@@ -16,7 +16,7 @@ class Objective(BaseObjective):
     min_benchopt_version = "1.8"
     sampling_strategy = "run_once"
 
-    requirements = ["torch"]
+    requirements = ["pytorch"]
 
     parameters = {
         "batch_size": [32, 128],
