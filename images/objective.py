@@ -17,7 +17,7 @@ class Objective(BaseObjective):
     url = "https://github.com/tommoral/benchmark_dataloader/image"
     min_benchopt_version = "1.8"
 
-    requirements = ["torch", "torchvision"]
+    requirements = ["pytorch", "torchvision"]
 
     # Disable performance curves: each solver runs once to completion.
     sampling_strategy = "run_once"

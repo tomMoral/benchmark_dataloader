@@ -27,7 +27,7 @@ class Dataset(BaseDataset):
         if not split_dir.exists():
             raise FileNotFoundError(
                 f"ImageNet not found at {split_dir}. "
-                "You need to download it yourself and speciy its path "
+                "You need to download it yourself and specify its path "
                 "in the benchmark config (see README)."
             )
 
