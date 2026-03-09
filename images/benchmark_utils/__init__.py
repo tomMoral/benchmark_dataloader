@@ -63,7 +63,9 @@ def compute_throughput(epoch_stats, image_size=None):
         return stats["n_samples"] / stats["elapsed_sec"]
 
     cold = _throughput(epoch_stats[0])
-    warm = sum(_throughput(s) for s in epoch_stats[1:]) / max(len(epoch_stats) - 1, 1)
+    warm = sum(
+        _throughput(s) for s in epoch_stats[1:]
+    ) / max(len(epoch_stats) - 1, 1)
 
     result = dict(
         cold_samples_per_sec=cold,

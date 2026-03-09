@@ -21,17 +21,17 @@ class Solver(BaseSolver):
     def set_objective(
             self, file_paths, transform, image_size, batch_size, device
     ):
+        file_paths = list(file_paths)
         self.device = device
         self.batch_size = batch_size
-        self._n_samples = len(list(file_paths))
+        self.n_samples = len(file_paths)
 
         # Pack into sharded tars — excluded from throughput measurement.
         self._tmpdir = Path(tempfile.mkdtemp(prefix="benchopt_wds_"))
         shard_paths = []
-        file_paths = list(file_paths)
-        min_shard = (len(file_paths) + self.num_workers - 1) // self.num_workers
+        min_shard = (self.n_samples + self.num_workers - 1) // self.num_workers
         step = min(1000, min_shard)
-        for i, start in enumerate(range(0, len(file_paths), step)):
+        for i, start in enumerate(range(0, self.n_samples, step)):
             shard = self._tmpdir / f"shard-{i:04d}.tar"
             with tarfile.open(shard, "w") as tar:
                 for fp in file_paths[start:start + step]:

@@ -14,7 +14,7 @@ class Objective(BaseObjective):
     """
 
     name = "Dataloader Throughput - Images"
-    url = "https://github.com/benchopt/benchmark_dataloader/image"
+    url = "https://github.com/tommoral/benchmark_dataloader/image"
     min_benchopt_version = "1.8"
 
     requirements = ["torch", "torchvision"]
