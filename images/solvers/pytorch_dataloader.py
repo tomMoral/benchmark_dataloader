@@ -45,4 +45,3 @@ class Solver(BaseSolver):
 
     def get_result(self):
         return dict(dataloader=self.loader)
-
