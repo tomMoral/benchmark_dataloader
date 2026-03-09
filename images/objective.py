@@ -2,8 +2,8 @@ from benchopt import BaseObjective
 
 import torch
 from torchvision import transforms
-from benchmark_utils import compute_throughput
-from benchmark_utils import run_epoch_loop
+from benchmark_utils.eval_loop import compute_throughput
+from benchmark_utils.eval_loop import run_epoch_loop
 
 
 class Objective(BaseObjective):
