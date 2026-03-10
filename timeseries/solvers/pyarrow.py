@@ -42,7 +42,7 @@ class Solver(BaseSolver):
 
     name = "PyArrow"
     sampling_strategy = "run_once"
-    requirements = ["pyarrow", "torch", "numpy"]
+    requirements = ["pyarrow"]
 
     def set_objective(self, parquet_paths, n_channels, batch_size,
                       window_size, stride, device):

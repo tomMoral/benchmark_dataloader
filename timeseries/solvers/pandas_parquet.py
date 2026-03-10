@@ -46,7 +46,7 @@ class Solver(BaseSolver):
 
     name = "Pandas-Parquet"
     sampling_strategy = "run_once"
-    requirements = ["pandas", "pyarrow", "torch", "numpy"]
+    requirements = ["pandas", "pyarrow"]
 
     parameters = {
         "num_workers": [4],
