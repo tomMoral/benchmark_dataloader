@@ -24,7 +24,7 @@ class Solver(BaseSolver):
 
     name = "PyTorch-TokenDataLoader"
     sampling_strategy = "run_once"
-    requirements = ["datasets", "torch"]
+    requirements = ["datasets"]
 
     parameters = {
         "num_workers": [4],
