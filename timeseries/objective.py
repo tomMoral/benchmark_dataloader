@@ -1,7 +1,8 @@
 from benchopt import BaseObjective
 
 import torch
-from benchmark_utils import run_series_epoch_loop, compute_series_throughput
+from benchmark_utils.eval_loop import run_series_epoch_loop
+from benchmark_utils.eval_loop import compute_series_throughput
 
 
 class Objective(BaseObjective):
@@ -17,7 +18,7 @@ class Objective(BaseObjective):
     min_benchopt_version = "1.8"
     sampling_strategy = "run_once"
 
-    requirements = ["torch"]
+    requirements = ["pytorch"]
 
     parameters = {
         "batch_size": [64, 256],

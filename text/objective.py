@@ -1,7 +1,8 @@
 from benchopt import BaseObjective
 
 import torch
-from benchmark_utils import run_token_epoch_loop, compute_text_throughput
+from benchmark_utils.eval_loop import run_token_epoch_loop
+from benchmark_utils.eval_loop import compute_text_throughput
 
 
 class Objective(BaseObjective):
