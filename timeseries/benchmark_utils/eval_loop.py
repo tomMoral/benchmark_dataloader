@@ -46,9 +46,9 @@ def compute_series_throughput(epoch_stats):
     warm_w = sum(s["n_windows"] / s["elapsed_sec"] for s in warm) / len(warm)
 
     return dict(
-        cold_series_per_sec=cold_sr,
         warm_series_per_sec=warm_sr,
-        cold_windows_per_sec=cold_w,
+        cold_series_per_sec=cold_sr,
         warm_windows_per_sec=warm_w,
+        cold_windows_per_sec=cold_w,
         value=warm_w,  # primary metric: windows/sec (warm)
     )

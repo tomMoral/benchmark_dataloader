@@ -49,9 +49,9 @@ def compute_text_throughput(epoch_stats):
               / len(warm_stats))
 
     return dict(
-        cold_samples_per_sec=cold_s,
         warm_samples_per_sec=warm_s,
-        cold_tokens_per_sec=cold_t,
+        cold_samples_per_sec=cold_s,
         warm_tokens_per_sec=warm_t,
+        cold_tokens_per_sec=cold_t,
         value=warm_t,  # primary metric: tokens/sec (warm)
     )

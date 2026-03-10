@@ -1,0 +1,5 @@
+plot_configs:
+  Throughput:
+    boxplot_X_axis: Solver
+    boxplot_Y_axis: Objective Metric
+    plot_kind: boxplot

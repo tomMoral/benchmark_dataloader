@@ -68,14 +68,14 @@ def compute_throughput(epoch_stats, image_size=None):
     ) / max(len(epoch_stats) - 1, 1)
 
     result = dict(
-        cold_samples_per_sec=cold,
         warm_samples_per_sec=warm,
+        cold_samples_per_sec=cold,
         value=warm,  # primary metric for benchopt plots
     )
 
     if image_size is not None:
         n_pixels = image_size * image_size * 3
-        result["cold_pixels_per_sec"] = cold * n_pixels
         result["warm_pixels_per_sec"] = warm * n_pixels
+        result["cold_pixels_per_sec"] = cold * n_pixels
 
     return result
