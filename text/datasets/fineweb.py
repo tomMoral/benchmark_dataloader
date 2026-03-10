@@ -15,15 +15,20 @@ class Dataset(BaseDataset):
 
     name = "FineWeb"
 
+    requirements = [
+        "datasets", "pip::tokenizers>=0.15", "pip::safetensors>=0.5.0"
+    ]
+
     parameters = {
         "n_samples": [10_000, 100_000],
         "tokenizer_name": ["gpt2"],
         "seq_len": [512],
     }
 
-    requirements = [
-        "datasets", "pip::tokenizers>=0.15", "pip::safetensors>=0.5.0"
-    ]
+    test_config = {
+        "n_samples": 1024,
+        "seq_len": 128,
+    }
 
     def get_data(self):
         cache_dir = Path(tempfile.mkdtemp(prefix="benchopt_fineweb_"))
