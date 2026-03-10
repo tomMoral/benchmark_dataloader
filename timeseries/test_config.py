@@ -1,3 +1,4 @@
+import sys
 import pytest
 
 
@@ -10,6 +11,6 @@ def check_test_dataset_get_data(benchmark, dataset_class):
 def check_test_solver_run(benchmark, solver_class):
     if (
             solver_class.name.lower() == "pandas-parquet"
-            and sys.platform == "darwin":
+            and sys.platform == "darwin"
     ):
         pytest.skip("Pandas parquet dataloader fails to launch on OSX")
