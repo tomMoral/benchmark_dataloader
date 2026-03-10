@@ -1,50 +1,60 @@
 from benchopt import BaseDataset
 from pathlib import Path
-import os
+import tempfile
 
+import numpy as np
 import pandas as pd
+from datasets import load_dataset
 
 
 class Dataset(BaseDataset):
-    """GIFT-eval time series dataset from local parquet/arrow files.
+    """GIFT-eval time series streamed from HuggingFace (Salesforce/gift_eval).
 
-    Expects GIFT_EVAL_PATH env var pointing to a directory containing
-    .parquet files, one per time series group.
-
-    Each parquet file should have columns:
-    [timestamp, channel_0, ..., channel_N]
+    Each config name selects a specific dataset and split embedded
+    together, e.g. 'ETTh1/train'.  Pre-processing (download, parquet
+    conversion) is excluded from throughput measurement.
     """
 
     name = "GIFT-Eval"
 
     parameters = {
-        "split": ["train"],
-        "max_series": [500],
+        "dataset_name": ["ETTh1/train"],
+        "n_series": [100],
     }
 
-    requirements = ["pandas", "pyarrow"]
+    requirements = ["pandas", "pyarrow", "numpy", "datasets"]
 
     def get_data(self):
-        root = Path(os.environ.get("GIFT_EVAL_PATH", "/data/gift_eval"))
+        cache_dir = Path(tempfile.mkdtemp(prefix="benchopt_gift_"))
 
-        if not root.exists():
-            raise FileNotFoundError(
-                f"GIFT-eval not found at {root}. "
-                "Set the GIFT_EVAL_PATH environment variable."
-            )
+        ds = load_dataset(
+            "Salesforce/GiftEval",
+            split="train",
+            streaming=True,
+        )
 
-        parquet_paths = sorted(root.glob(f"{self.split}/*.parquet"))
-        if not parquet_paths:
-            # flat layout fallback
-            parquet_paths = sorted(root.glob("*.parquet"))
+        parquet_paths = []
+        n_channels = None
+        for i, example in enumerate(ds):
+            if i >= self.n_series:
+                break
+            target = np.array(example["target"], dtype=np.float32)
+            # Univariate: (T,) → (T, 1); multivariate: (C, T) → (T, C)
+            if target.ndim == 1:
+                target = target[:, np.newaxis]
+            else:
+                target = target.T
+            if n_channels is None:
+                n_channels = target.shape[1]
 
-        parquet_paths = parquet_paths[: self.max_series]
-
-        # Infer n_channels from the first file.
-        df = pd.read_parquet(parquet_paths[0])
-        n_channels = len([c for c in df.columns if c != "timestamp"])
+            cols = {f"channel_{j}": target[:, j]
+                    for j in range(target.shape[1])}
+            cols["timestamp"] = np.arange(len(target))
+            path = cache_dir / f"series_{i:04d}.parquet"
+            pd.DataFrame(cols).to_parquet(path, index=False)
+            parquet_paths.append(str(path))
 
         return dict(
-            parquet_paths=[str(p) for p in parquet_paths],
+            parquet_paths=parquet_paths,
             n_channels=n_channels,
         )
