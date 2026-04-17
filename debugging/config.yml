@@ -1,0 +1,13 @@
+plots:
+  - batch_time_timeline
+  - throughput_comparison
+  - batch_time_distribution
+  - table
+
+plot_configs:
+  Batch Time Distribution:
+    plot_kind: batch_time_distribution
+  Batch Time Timeline:
+    plot_kind: batch_time_timeline
+  Throughput:
+    plot_kind: throughput_comparison
